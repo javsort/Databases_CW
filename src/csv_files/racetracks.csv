@@ -1,0 +1,23 @@
+round,grand_prix,country,circuit,laps,race_date,first_place,second_place,third_place,fastest_lap
+1,Bahrain Grand Prix,Bahrain,Bahrain International Circuit,57,2023-03-05,Max Verstappen,Sergio Pére,Fernando Alonso,Zhou Guanyu
+2,Saudi Arabian Grand Prix,Saudi Arabia,Jeddah Corniche Circuit,50,2023-03-19,Sergio Pére,Max Verstappen,Fernando Alonso,Max Verstappen
+3,Australian Grand Prix,Australia,Albert Park Circuit,58,2023-04-02,Max Verstappen,Lewis Hamilton,Fernando Alonso,Sergio Pére
+4,Azerbaijan Grand Prix,Azerbaijan,Baku City Circuit,51,2023-04-30,Sergio Pére,Max Verstappen,Charles Leclerc,George Russel
+5,Miami Grand Prix,United States of America,Miami International Autodrome,57,2023-05-07,Max Verstappen,Sergio Pére,Fernando Alonso,Max Verstappen
+6,Monaco Grand Prix,Monaco,Circuit de Monaco,78,2023-05-28,Max Verstappen,Fernando Alonso,Esteban Ocon,Lewis Hamilton
+7,Spanish Grand Prix,Spain,Circuit de Barcelona-Catalunya,66,2023-06-04,Max Verstappen,Lewis Hamilton,George Russel,Max Verstappen
+8,Canadian Grand Prix,Canada,Curcuit Gilles Villeneuve,70,2023-06-18,Max Verstappen,Fernando Alonso,Lewis Hamilton,Sergio Pére
+9,Austrian Grand Prix,Austria,Red Bull Ring,71,2023-07-02,Max Verstappen,Charles Leclerc,Sergio Pére,Max Verstappen
+10,British grand Prix,United Kingdom,Silverstone Circuit,52,2023-07-09,Max Verstappen,Lando Norris,Lewis Hamilton,Max Verstappen
+11,Hungarian Grand Prix,Hungary,Hungaroring,70,2023-07-23,Max Verstappen,Lando Norris,Sergio Pére,Max Verstappen
+12,Belgian Grand Prix,Belgium,Circuit de Spa-Francorchamps,44,2023-07-30,Max Verstappen,Sergio Pére,Charles Leclerc,Lewis Hamilton
+13,Dutch Grand Prix,Netherlands,Curcuit Zandvoort,72,2023-08-27,Max Verstappen,Fernando Alonso,Pierre Gasly,Fernando Alonso
+14,Italian Grand Prix,Italy,Monza Circuit,51,2023-09-03,Max Verstappen,Sergio Pére,Carlos Sainz Jr.,Oscar Piastri
+15,Singapore Grand Prix,Singapore,Marina Bay Street Circuit,62,2023-09-17,Carlos Sainz,Lando Norris,Lewis Hamilton,Lewis Hamilton
+16,Japanese Grand Prix,Japan,Suzuka International Racing Course,53,2023-09-24,Max Verstappen,Lando Norris,Oscar Piastri,Max Verstappen
+17,Qatar Grand Prix,Qatar,Lusail International Circuit,57,2023-10-08,Max Verstappen,Oscar Piastri,Lando Norris,Max Verstappen
+18,United States Grand Prix,United States of America,Circuit of the Americas,56,2023-10-22,Max Verstappen,Lando Norris,Carlos Sainz Jr.,Yuki Tsunoda
+19,Mexico City Grand Prix,Mexico,Autódromo Hermanos Rodrígu,71,2023-10-29,Max Verstappen,Lewis Hamilton,Charles Leclerc,Lewis Hamilton
+20,São Paulo Grand Pri,Brazil,Interlagos Circuit,71,2023-11-05,Max Verstappen,Lando Norris,Fernando Alonso,Lando Norris
+21,Las Vegas Grand Prix,United States of America,Las Vegas Strip Circuit,50,2023-11-18,Max Verstappen,Charles Leclerc,Sergio Pére,Oscar Piastri
+22,Abu Dhabi Grand Prix,United Arab Emirates,Yas Marina Circuit,58,2023-11-26,Max Verstappen,Charles Leclerc,George Russel,Max Verstappen

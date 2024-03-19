@@ -1,0 +1,23 @@
+driver_id,driver_name,constructor,racer_number,points,country_of_birth,podiums,wins,pole_positions,fastest_laps,laps_raced,km_raced,laps_led,best_result,best_grid_pos,world_championships,year_of_entry,race_engineer
+1,Zhou Guanyu,Alfa Romeo-Ferrari,24,6,China,0,0,0,1,1244,6323,0,9,5,0,2021,Jorn Becker
+2,Valtteri Bottas,Alfa Romeo-Ferrari,77,10,Finland,0,0,0,0,1229,6207,0,8,2,0,2012,Alex Chan
+3,Nyck de Vries,Alpha Tauri-Honda RBPT,21,0,Netherlands,0,0,0,0,561,2739,0,12,12,0,2023,Pierre Hamelin
+4,Daniel Ricciardo,Alpha Tauri-Honda RBPT,3,6,Australia,0,0,0,0,417,2137,0,7,4,0,2011,Pierre Hamelin
+5,Liam Lawson,Alpha Tauri-Honda RBPT,40,2,New Zealand,0,0,0,0,293,1514,0,9,10,0,2023,Pierre Hamelin
+6,Yuki Tsunoda,Alpha Tauri-Honda RBPT,22,17,Japan,0,0,0,1,1202,6047,5,8,6,0,2021,Mattia Spini
+7,Pierre Gasly,Alpine-Renault,10,62,France,1,0,0,0,1248,6352,0,3,4,0,2017,Karel Loos
+8,Esteban Ocon,Alpine-Renault,31,58,France,1,0,0,0,1112,5599,0,3,3,0,2014,Josh Peckett
+9,Fernando Alonso,Aston Martin Aramco-Mercedes,14,206,Spain,8,0,0,1,1294,6558,3,2,2,2,2001,Chris Cronin
+10,Lance Stroll,Aston Martin Aramco-Mercedes,18,74,Canada,0,0,0,0,1165,5883,0,4,3,0,2017,Ben Michell
+11,Charles Leclerc,Ferrari,16,206,Monaco,6,0,5,0,1147,5859,41,2,1,0,2016,Xavier Marcos Padros
+12,Carlos Sainz Jr.,Ferrari,55,200,Spain,6,1,2,0,1246,6239,77,1,1,0,2015,Riccardo Adami
+13,Kevin Magnussen,Haas-Ferrari,20,3,Denmark,0,0,0,0,1169,5989,0,10,4,0,2014,Mark Slade
+14,Nico Hülkenber,Haas-Ferrari,27,9,Germany,0,0,0,0,1250,6362,0,7,5,0,2010,Gary Gannon
+15,Lando Norris,McLaren-Mercedes,4,205,United Kingdom,7,0,0,1,1273,6384,30,2,2,0,2018,William Joseph
+16,Oscar Piastri,McLaren-Mercedes,81,97,Australia,2,0,0,2,1185,5874,1,2,2,0,2023,Tom Stallard
+17,Lewis Hamilton,Mercedes,44,234,United Kingdom,6,0,1,4,1268,6391,13,2,1,7,2007,Peter Bonnington
+18,George Russel,Mercedes,63,175,United Kingdom,2,0,0,1,1252,6344,6,3,2,0,2017,Marcus Dudley
+19,Max Verstappen,Red Bull Racing-Honda RBPT,1,575,Netherlands,21,19,12,9,1325,6700,1003,1,1,3,2014,Gianpiero Lambiase
+20,Sergio Pérez,Red Bull Racing-Honda RBPT,11,285,Mexico,9,2,2,2,1215,6172,146,1,1,0,2011,Hugh Bird
+21,Logan Sargeant,Williams-Mercedes,2,1,United States of America,0,0,0,0,1142,5843,0,10,6,0,2022,Gaetan Jego
+22,Alexander Albon,Williams-Mercedes,23,27,Thailand,0,0,0,0,1149,5809,0,7,4,0,2019,James Urwin

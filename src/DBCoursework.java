@@ -104,7 +104,23 @@ public class DBCoursework {
             db.tracksUploader.upload();
 
             System.out.println("All data has been uploaded to DB! \nProceding to queries...\n");
-            Thread.sleep(500);
+
+            // Queries
+            // Query 1
+            System.out.println("Query 1: Find the driver with the most wins in the 2023 season");
+            ResultSet rs = db.statement.executeQuery("SELECT driver_name, constructor, racer_number, points, podiums, wins, pole_positions, fastest_laps FROM drivers ORDER BY wins");
+            while (rs.next()) {
+                System.out.println("Driver: " + rs.getString("driver_name") + " | Team: " + rs.getString("constructor") + " | Racer Number: " + rs.getInt("racer_number") + " | Points: " + rs.getInt("points") + " | Podiums: " + rs.getInt("podiums") + " | Wins: " + rs.getInt("wins") + " | Pole Positions: " + rs.getInt("pole_positions") + " | Fastest Laps: " + rs.getInt("fastest_laps"));
+            }
+
+            // Query 2
+            System.out.println("\nQuery 2: Find the driver with the most podiums in the 2023 season");
+            ResultSet rs2 = db.statement.executeQuery("SELECT driver_name, constructor, racer_number, points, podiums, wins, pole_positions, fastest_laps FROM drivers ORDER BY podiums");
+            while (rs2.next()) {
+                System.out.println("Driver: " + rs2.getString("driver_name") + " | Team: " + rs2.getString("constructor") + " | Racer Number: " + rs2.getInt("racer_number") + " | Points: " + rs2.getInt("points") + " | Podiums: " + rs2.getInt("podiums") + " | Wins: " + rs2.getInt("wins") + " | Pole Positions: " + rs2.getInt("pole_positions") + " | Fastest Laps: " + rs2.getInt("fastest_laps"));
+            }
+
+            Thread.sleep(1000);
 
         } catch (Exception e) {
             System.out.println("Error through process: " + e);
@@ -320,7 +336,7 @@ public class DBCoursework {
         public void upload() throws InterruptedException {
             try {
                 System.out.println("Uploading data to " + tableToUpload + " now...\n");
-                Thread.sleep(500);
+                Thread.sleep(100);
 
                 for (int i = 0; i < dataRows[0].length-1; i++) {
 
@@ -348,7 +364,7 @@ public class DBCoursework {
                     query += ")";
 
                     System.out.println("Query: " + query);
-                    Thread.sleep(100);
+                    Thread.sleep(50);
 
                     statement.executeUpdate(query);
                 }

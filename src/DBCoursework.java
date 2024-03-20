@@ -104,6 +104,7 @@ public class DBCoursework {
             db.tracksUploader.upload();
 
             System.out.println("All data has been uploaded to DB! \nProceding to queries...\n");
+            Thread.sleep(500);
 
         } catch (Exception e) {
             System.out.println("Error through process: " + e);
@@ -122,17 +123,20 @@ public class DBCoursework {
             conn = toConnect;
             statement = conn.createStatement();
             statement.setQueryTimeout(30);
-            System.out.println("Connection established");
+            System.out.println("Connection established! \nNow proceeding to declare tables...");
             Thread.sleep(500);
+
         } catch (Exception e) {
             System.out.println("Error through process: " + e);
             Thread.sleep(5000);
         }
 
-        UploadToDB driversUploader = new UploadToDB("drivers");
-        UploadToDB teamUploader = new UploadToDB("driving_team");
-        UploadToDB engineersUploader = new UploadToDB("race_engineers");
-        UploadToDB tracksUploader = new UploadToDB("racetracks");
+        driversUploader = new UploadToDB("drivers");
+        teamUploader = new UploadToDB("driving_team");
+        engineersUploader = new UploadToDB("race_engineers");
+        tracksUploader = new UploadToDB("racetracks");
+
+
     }
 
     public void declareTables() throws InterruptedException {
@@ -162,7 +166,7 @@ public class DBCoursework {
                     "FOREIGN KEY (constructor) REFERENCES driving_team(constructor), " +
                     "FOREIGN KEY (race_engineer) REFERENCES race_engineers(engineer_name))");
 
-            System.out.println("Created drivers table");
+            System.out.println("Created drivers table\n");
             Thread.sleep(500);
 
             statement.executeUpdate("DROP TABLE IF EXISTS driving_team");
@@ -178,7 +182,7 @@ public class DBCoursework {
                     "points INTEGER, " +
                     "world_championships INTEGER)");
 
-            System.out.println("Created driving_team table");
+            System.out.println("Created driving_team table\n");
             Thread.sleep(500);
 
             statement.executeUpdate("DROP TABLE IF EXISTS race_engineers");
@@ -190,7 +194,7 @@ public class DBCoursework {
                     "years_of_f1_entry INTEGER, " +
                     "FOREIGN KEY (constructor) REFERENCES driving_team(constructor))");
 
-            System.out.println("Created race_engineers table");
+            System.out.println("Created race_engineers table\n");
             Thread.sleep(500);
 
 
@@ -211,7 +215,7 @@ public class DBCoursework {
                     "FOREIGN KEY (third_place) REFERENCES drivers(driver_name), " +
                     "FOREIGN KEY (fastest_lap) REFERENCES drivers(driver_name))");
 
-            System.out.println("Created racetracks table \nNow returning to read CSV files...");
+            System.out.println("Created racetracks table \nNow returning to read CSV files...\n");
             Thread.sleep(500);
 
             Thread.sleep(1000);
@@ -246,7 +250,7 @@ public class DBCoursework {
                     allRows.add(row);
                 }
 
-                System.out.println("Read file successfully, now processing...");
+                System.out.println("Read file successfully, now processing...\n");
                 Thread.sleep(500);
 
                 headers = allRows.get(0);
@@ -271,7 +275,7 @@ public class DBCoursework {
                 }
 
                 System.out.println("Read " + file + " successfully!");
-                System.out.println("Received " + headers.length + " columns and " + data[0].length + " rows. \nReturning to upload to DB...");
+                System.out.println("Received " + headers.length + " columns and " + data[0].length + " rows. \nTable ready for upload!\n");
                 Thread.sleep(500);
 
                 /*for(int i = 0; i < numColumns; i++) {
@@ -313,8 +317,50 @@ public class DBCoursework {
             this.dataRows = dataRows;
         }
 
-        public void upload() {
+        public void upload() throws InterruptedException {
+            try {
+                System.out.println("Uploading data to " + tableToUpload + " now...\n");
+                Thread.sleep(500);
 
+                for (int i = 0; i < dataRows[0].length-1; i++) {
+
+                    String query = "INSERT INTO " + tableToUpload + " (";
+
+                    for (int j = 0; j < headers.length; j++) {
+                        query += headers[j];
+
+                        if (j != headers.length - 1) {
+                            query += ", ";
+                        }
+                    }
+                    query += ") VALUES (";
+
+                    System.out.println("Uploading row " + i + " to " + tableToUpload + "...");
+                    Thread.sleep(500);
+
+                    for (int j = 0; j < headers.length; j++) {
+                        query += "'" + dataRows[j][i] + "'";
+
+                        if (j != headers.length - 1) {
+                            query += ", ";
+                        }
+                    }
+                    query += ")";
+
+                    System.out.println("Query: " + query);
+                    Thread.sleep(100);
+
+                    statement.executeUpdate(query);
+                }
+
+                System.out.println("\nData uploaded to: " + tableToUpload + " successfully!\n\n");
+                Thread.sleep(1000);
+
+            } catch (Exception e) {
+                System.out.println("Error through process: " + e);
+                Thread.sleep(5000);
+
+            }
         }
     }
 }

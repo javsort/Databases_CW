@@ -1,11 +1,11 @@
 team_id,entrant,constructor,chassis,power_unit,team_principal,headquarters,year_of_entry,points,world_championships
-1,Alfa Romeo F1 Team Stake,Alfa Romeo-Ferrari,C43,Ferrari 066/10,Alessandro Alunni Bravi,"Zürich, Switzerlan",1993,16,NULL
-2,Scuderia Alfa Tauri,Alpha Tauri-Honda RBPT,AT04,Honda RBPTH001,Franz Tost,"Faenza, Italy",1985,25,NULL
-3,BWT Alpine F1 Team,Alpine-Renault,A523,Renault E-Tech RE23,Otmar Sznafnauer / Bruno Famin,"Enstone, United Kingdom",1986,120,2
-4,Aston Martin Aramco Cognizant F1 Team,Aston Martin Aramco-Mercedes,AMR23,Mercedes-AMG F1 M14,Mike Krack,"Silverstone, England",2018,280,NULL
-5,Scuderia Ferrari,Ferrari,SF-23,Ferrari 066/10,Fred Vasseur,"Maranello, Italy",1950,406,16
-6,MoneyGram Haas F1 Team,Haas-Ferrari,VF-23,Ferrari 066/10,Guenther Steiner,"North Carolina, United States",2016,12,NULL
-7,McLaren F1 Team,McLaren-Mercedes,MCL60,Mercedes-AMG F1 M14,Andrea Stella,"Woking, United Kingdom",1966,302,8
-8,Mercedes-AMG PETRONAS F1 Team,Mercedes,F1 W14,Mercedes-AMG F1 M14,Toto Wolff,"Brackley, United Kingdom",1970,409,8
-9,Oracle Red Bull Racing,Red Bull Racing-Honda RBPT,RB19,Honda RBPTH001,Christian Horner,"Milton Keynes, United Kingdom",1997,860,5
-10,Williams Racing,Williams-Mercedes,FW45,Mercedes-AMG F1 M14,James Vowles,"Grove, United Kingdom",1978,28,9
+1,Alfa Romeo F1 Team Stake,Alfa Romeo-Ferrari,C43,Ferrari 066/10,Alessandro Alunni Bravi,Zürich - Switzerland,1993,16,NULL
+2,Scuderia Alfa Tauri,Alpha Tauri-Honda RBPT,AT04,Honda RBPTH001,Franz Tost,Faenza - Italy,1985,25,NULL
+3,BWT Alpine F1 Team,Alpine-Renault,A523,Renault E-Tech RE23,Otmar Sznafnauer / Bruno Famin,Enstone - United Kingdom,1986,120,2
+4,Aston Martin Aramco Cognizant F1 Team,Aston Martin Aramco-Mercedes,AMR23,Mercedes-AMG F1 M14,Mike Krack,Silverstone - England,2018,280,NULL
+5,Scuderia Ferrari,Ferrari,SF-23,Ferrari 066/10,Fred Vasseur,Maranello - Italy,1950,406,16
+6,MoneyGram Haas F1 Team,Haas-Ferrari,VF-23,Ferrari 066/10,Guenther Steiner,North Carolina - United States,2016,12,NULL
+7,McLaren F1 Team,McLaren-Mercedes,MCL60,Mercedes-AMG F1 M14,Andrea Stella,Woking - United Kingdom,1966,302,8
+8,Mercedes-AMG PETRONAS F1 Team,Mercedes,F1 W14,Mercedes-AMG F1 M14,Toto Wolff,Brackley - United Kingdom,1970,409,8
+9,Oracle Red Bull Racing,Red Bull Racing-Honda RBPT,RB19,Honda RBPTH001,Christian Horner,Milton Keynes - United Kingdom,1997,860,5
+10,Williams Racing,Williams-Mercedes,FW45,Mercedes-AMG F1 M14,James Vowles,Grove - United Kingdom,1978,28,9

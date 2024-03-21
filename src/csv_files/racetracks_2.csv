@@ -1,0 +1,24 @@
+round,grand_prix,country,continent,circuit,laps,race_date
+1,Bahrain Grand Prix,Bahrain,ASIA,Bahrain International Circuit,57,2023-03-05
+2,Saudi Arabian Grand Prix,Saudi Arabia,ASIA,Jeddah Corniche Circuit,50,2023-03-19
+3,Australian Grand Prix,Australia,OCEANIA,Albert Park Circuit,58,2023-04-02
+4,Azerbaijan Grand Prix,Azerbaijan,ASIA,Baku City Circuit,51,2023-04-30
+5,Miami Grand Prix,United States of America,AMERICA,Miami International Autodrome,57,2023-05-07
+6,Emilia Romagna Grand Prix,Italy,EUROPE,Autodromo Internazionale Enzo e Dino Ferrari,63,2023-05-21
+7,Monaco Grand Prix,Monaco,EUROPE,Circuit de Monaco,78,2023-05-28
+8,Spanish Grand Prix,Spain,EUROPE,Circuit de Barcelona-Catalunya,66,2023-06-04
+9,Canadian Grand Prix,Canada,AMERICA,Curcuit Gilles Villeneuve,70,2023-06-18
+10,Austrian Grand Prix,Austria,EUROPE,Red Bull Ring,71,2023-07-02
+11,British grand Prix,United Kingdom,EUROPE,Silverstone Circuit,52,2023-07-09
+12,Hungarian Grand Prix,Hungary,EUROPE,Hungaroring,70,2023-07-23
+13,Belgian Grand Prix,Belgium,EUROPE,Circuit de Spa-Francorchamps,44,2023-07-30
+14,Dutch Grand Prix,Netherlands,EUROPE,Curcuit Zandvoort,72,2023-08-27
+15,Italian Grand Prix,Italy,EUROPE,Monza Circuit,51,2023-09-03
+16,Singapore Grand Prix,Singapore,ASIA,Marina Bay Street Circuit,62,2023-09-17
+17,Japanese Grand Prix,Japan,ASIA,Suzuka International Racing Course,53,2023-09-24
+18,Qatar Grand Prix,Qatar,ASIA,Lusail International Circuit,57,2023-10-08
+19,United States Grand Prix,United States of America,AMERICA,Circuit of the Americas,56,2023-10-22
+20,Mexico City Grand Prix,Mexico,AMERICA,Autódromo Hermanos Rodríguez,71,2023-10-29
+21,S�o Paulo Grand Prix,Brazil,AMERICA,Interlagos Circuit,71,2023-11-05
+22,Las Vegas Grand Prix,United States of America,AMERICA,Las Vegas Strip Circuit,50,2023-11-18
+23,Abu Dhabi Grand Prix,United Arab Emirates,ASIA,Yas Marina Circuit,58,2023-11-26

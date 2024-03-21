@@ -9,11 +9,16 @@ public class DBCoursework {
     CSV_Reader driving_teamReader;
     CSV_Reader race_engineersReader;
     CSV_Reader racetracksReader;
+    CSV_Reader drivingstatsReader;
+    CSV_Reader racetrackstatsReader;
+
 
     UploadToDB driversUploader;
     UploadToDB teamUploader;
     UploadToDB engineersUploader;
     UploadToDB tracksUploader;
+    UploadToDB drivingstatsUploader;
+    UploadToDB racetrackstatsUploader;
 
     Connection conn;
     Statement statement;
@@ -45,6 +50,20 @@ public class DBCoursework {
             db.driversUploader.setDataRows(driverData);
 
             System.out.println("Driver headers: " + String.join(", ", driverHeaders));
+            Thread.sleep(500);
+
+            // Read drivers stats
+            db.drivingstatsReader.read();
+
+            // Store headers and data
+            String[] driverStatsHeaders = db.drivingstatsReader.getHeaders();
+            String[][] driverStatsData = db.drivingstatsReader.getData();
+
+            // Set headers and data to upload
+            db.drivingstatsUploader.setHeaders(driverStatsHeaders);
+            db.drivingstatsUploader.setDataRows(driverStatsData);
+
+            System.out.println("Driver stats headers: " + String.join(", ", driverStatsHeaders));
             Thread.sleep(500);
 
 
@@ -93,14 +112,31 @@ public class DBCoursework {
             Thread.sleep(500);
 
 
+            // Read racetrack stats
+            db.racetrackstatsReader.read();
+
+            // Store headers and data
+            String[] trackStatsHeaders = db.racetrackstatsReader.getHeaders();
+            String[][] trackStatsData = db.racetrackstatsReader.getData();
+
+            // Set headers and data to upload
+            db.racetrackstatsUploader.setHeaders(trackStatsHeaders);
+            db.racetrackstatsUploader.setDataRows(trackStatsData);
+
+            System.out.println("Racetrack stats headers: " + String.join(", ", trackStatsHeaders));
+            Thread.sleep(500);
+
+
             System.out.println("All data has been set ready for upload, now uploading to DB...");
             Thread.sleep(500);
 
             // Upload to DB
             db.driversUploader.upload();
+            db.drivingstatsUploader.upload();
             db.teamUploader.upload();
             db.engineersUploader.upload();
             db.tracksUploader.upload();
+            db.racetrackstatsUploader.upload();
 
             System.out.println("All data has been uploaded to DB! \nProceding to queries...\n");
             Thread.sleep(500);
@@ -122,10 +158,13 @@ public class DBCoursework {
     }
 
     public DBCoursework(Connection toConnect) throws InterruptedException {
-        driversReader = new CSV_Reader("./csv_files/drivers.csv");
+
+        driversReader = new CSV_Reader("./csv_files/drivers_2.csv");
         driving_teamReader = new CSV_Reader("./csv_files/driving_team.csv");
         race_engineersReader = new CSV_Reader("./csv_files/race_engineers.csv");
-        racetracksReader = new CSV_Reader("./csv_files/racetracks.csv");
+        racetracksReader = new CSV_Reader("./csv_files/racetracks_2.csv");
+        drivingstatsReader = new CSV_Reader("./csv_files/drivers_stats.csv");
+        racetrackstatsReader = new CSV_Reader("./csv_files/racetracks_stats.csv");
 
         try {
             conn = toConnect;
@@ -143,6 +182,8 @@ public class DBCoursework {
         teamUploader = new UploadToDB("driving_team");
         engineersUploader = new UploadToDB("race_engineers");
         tracksUploader = new UploadToDB("racetracks");
+        drivingstatsUploader = new UploadToDB("drivers_stats");
+        racetrackstatsUploader = new UploadToDB("racetracks_stats");
 
     }
 
@@ -151,13 +192,24 @@ public class DBCoursework {
         try {
             // Creating tables:
             statement.executeUpdate("DROP TABLE IF EXISTS drivers");
+
             statement.executeUpdate("CREATE TABLE drivers" +
-                    "(driver_id INTEGER, " +
-                    "driver_name TEXT PRIMARY KEY , " +
+                    "(driver_name TEXT PRIMARY KEY, " +
                     "constructor TEXT, " +
                     "racer_number INTEGER, " +
-                    "points INTEGER, " +
                     "country_of_birth TEXT, " +
+                    "race_engineer TEXT, " +
+                    "year_of_entry TEXT, " +
+                    "FOREIGN KEY (constructor) REFERENCES driving_team(constructor), " +
+                    "FOREIGN KEY (race_engineer) REFERENCES race_engineers(engineer_name))");
+
+            System.out.println("Created drivers table\n");
+            Thread.sleep(500);
+
+            statement.executeUpdate("DROP TABLE IF EXISTS drivers_stats");
+            statement.executeUpdate("CREATE TABLE drivers_stats" +
+                    "(driver_name TEXT PRIMARY KEY, " +
+                    "points INTEGER, " +
                     "podiums INTEGER, " +
                     "wins INTEGER, " +
                     "pole_positions INTEGER, " +
@@ -168,20 +220,9 @@ public class DBCoursework {
                     "best_result INTEGER, " +
                     "best_grid_pos INTEGER, " +
                     "world_championships INTEGER, " +
-                    "year_of_entry TEXT, " +
-                    "race_engineer TEXT, " +
-                    "FOREIGN KEY (constructor) REFERENCES driving_team(constructor), " +
-                    "FOREIGN KEY (race_engineer) REFERENCES race_engineers(engineer_name))");
+                    "FOREIGN KEY (driver_name) REFERENCES drivers(driver_name) ON DELETE CASCADE)");
 
-            statement.executeUpdate(
-                    "CREATE TRIGGER update_drivers_after_delete " +
-                            "AFTER DELETE ON drivers " +
-                            "BEGIN " +
-                            "UPDATE drivers SET driver_id = driver_id - 1 WHERE driver_id > OLD.driver_id; " +
-                            "END;"
-            );
-
-            System.out.println("Created drivers table\n");
+            System.out.println("Created drivers_stats table\n");
             Thread.sleep(500);
 
 
@@ -223,16 +264,7 @@ public class DBCoursework {
                     "continent TEXT, " +
                     "circuit TEXT, " +
                     "laps INTEGER, " +
-                    "race_date TEXT, " +
-                    "first_place TEXT, " +
-                    "second_place TEXT, " +
-                    "third_place TEXT, " +
-                    "fastest_lap TEXT, " +
-                    "fastest_lap_time TEXT, " +
-                    "FOREIGN KEY (first_place) REFERENCES drivers(driver_name), " +
-                    "FOREIGN KEY (second_place) REFERENCES drivers(driver_name), " +
-                    "FOREIGN KEY (third_place) REFERENCES drivers(driver_name), " +
-                    "FOREIGN KEY (fastest_lap) REFERENCES drivers(driver_name))");
+                    "race_date TEXT)");
 
             statement.executeUpdate(
                     "CREATE TRIGGER update_rounds_after_delete " +
@@ -242,7 +274,24 @@ public class DBCoursework {
                             "END;"
             );
 
-            System.out.println("Created racetracks table \nNow returning to read CSV files...\n");
+            System.out.println("Created racetracks table \n");
+            Thread.sleep(500);
+
+            statement.executeUpdate("DROP TABLE IF EXISTS racetracks_stats");
+            statement.executeUpdate("CREATE TABLE racetracks_stats" +
+                    "(grand_prix TEXT PRIMARY KEY, " +
+                    "first_place TEXT, " +
+                    "second_place TEXT, " +
+                    "third_place TEXT, " +
+                    "fastest_lap TEXT, " +
+                    "fastest_lap_time TEXT, " +
+                    "FOREIGN KEY (grand_prix) REFERENCES racetracks(grand_prix) ON DELETE CASCADE, " +
+                    "FOREIGN KEY (first_place) REFERENCES drivers(driver_name), " +
+                    "FOREIGN KEY (second_place) REFERENCES drivers(driver_name), " +
+                    "FOREIGN KEY (third_place) REFERENCES drivers(driver_name), " +
+                    "FOREIGN KEY (fastest_lap) REFERENCES drivers(driver_name))");
+
+            System.out.println("Created racetracks_stats table\n");
             Thread.sleep(500);
 
 
@@ -257,7 +306,7 @@ public class DBCoursework {
         // Query 1
         // Getting the driver with the most wins in the 2023 season
         System.out.println("Query 1: Find the driver with the most wins in the 2023 season:\n");
-        ResultSet rs = statement.executeQuery("SELECT driver_name, constructor, racer_number, points, podiums, wins, pole_positions, fastest_laps FROM drivers ORDER BY wins DESC");
+        ResultSet rs = statement.executeQuery("SELECT d.driver_name, d.constructor, d.racer_number, ds.points, ds.podiums, ds.wins, ds.pole_positions, ds.fastest_laps FROM drivers d JOIN drivers_stats ds ON d.driver_name = ds.driver_name ORDER BY ds.wins DESC");
         System.out.println("Drivers:");
         System.out.printf("| %-16s | %-28s | %-12s | %-6s | %-8s | %-4s | %-14s | %-12s |\n", "Driver Name", "Team", "Racer Number", "Points", "Podiums", "Wins", "Pole Positions", "Fastest Laps");
         System.out.printf("| %-16s | %-28s | %-12s | %-6s | %-8s | %-4s | %-14s | %-12s |\n", "----------------", "----------------------------", "------------", "------", "--------", "----", "--------------", "------------");
@@ -272,7 +321,7 @@ public class DBCoursework {
                     rs.getInt("pole_positions"),
                     rs.getInt("fastest_laps"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 2
         // Getting all races that took place in the 2023 season ordered by date
@@ -290,7 +339,7 @@ public class DBCoursework {
                     rs2.getString("circuit"),
                     rs2.getString("race_date"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
 
         // Query 3
@@ -311,12 +360,12 @@ public class DBCoursework {
                     rs3.getInt("points"),
                     rs3.getInt("world_championships"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 4
         // Get each driver along with its car and power unit
         System.out.println("\n\nQuery 4: Get each driver along with its car and power unit:\n");
-        ResultSet rs4 = statement.executeQuery("SELECT d.racer_number, d.driver_name, dt.constructor AS team_name, dt.chassis AS chassis, dt.power_unit AS power_unit, d.points, dt.points AS team_points FROM drivers d JOIN driving_team dt ON d.constructor = dt.constructor ORDER BY dt.points DESC");
+        ResultSet rs4 = statement.executeQuery("SELECT d.racer_number, d.driver_name, dt.constructor AS team_name, dt.chassis AS chassis, dt.power_unit AS power_unit, ds.points, dt.points AS team_points FROM drivers d JOIN driving_team dt ON d.constructor = dt.constructor JOIN drivers_stats ds ON d.driver_name = ds.driver_name ORDER BY dt.points DESC");
         System.out.println("Driver-Team Relationship:");
         System.out.printf("| %-12s | %-16s | %-28s | %-7s | %-19s | %-13s | %-11s |\n", "Racer Number", "Driver Name", "Team Name", "Chassis", "Power Unit", "Driver points", "Team Points");
         System.out.printf("| %-12s | %-16s | %-28s | %-7s | %-19s | %-13s | %-11s |\n", "------------", "----------------", "----------------------------", "-------", "-------------------", "-------------", "-----------");
@@ -330,12 +379,12 @@ public class DBCoursework {
                     rs4.getInt("points"),
                     rs4.getInt("team_points"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 5
         // Get the top 5 drivers of the 2023 season
         System.out.println("\n\nQuery 5: Get the top 5 drivers of the 2023 season:\n");
-        ResultSet rs5 = statement.executeQuery("SELECT driver_name, constructor, racer_number, points, podiums, wins, pole_positions, fastest_laps FROM drivers ORDER BY points DESC LIMIT 5");
+        ResultSet rs5 = statement.executeQuery("SELECT d.driver_name, d.constructor, d.racer_number, ds.points, ds.podiums, ds.wins, ds.pole_positions, ds.fastest_laps FROM drivers d JOIN drivers_stats ds ON d.driver_name = ds.driver_name ORDER BY ds.points DESC LIMIT 5");
         System.out.println("Top 5 Drivers:");
         System.out.printf("| %-12s | %-16s | %-28s | %-6s | %-7s | %-4s | %-14s | %-12s |\n", "Racer Number", "Driver Name", "Team", "Points", "Podiums", "Wins", "Pole Positions", "Fastest Laps");
         System.out.printf("| %-12s | %-16s | %-28s | %-6s | %-7s | %-4s | %-14s | %-12s |\n", "------------", "----------------", "----------------------------", "------", "-------", "----", "--------------", "------------");
@@ -350,7 +399,7 @@ public class DBCoursework {
                     rs5.getInt("pole_positions"),
                     rs5.getInt("fastest_laps"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 6
         // Counting racetracks by continent
@@ -364,12 +413,12 @@ public class DBCoursework {
                     rs6.getString("continent"),
                     rs6.getInt("circuits"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 7
         // Get the top 5 fastest laps and driver from each racetrack
         System.out.println("\n\nQuery 7: Get the top 5 fastest laps and driver from each racetrack:\n");
-        ResultSet rs7 = statement.executeQuery("SELECT grand_prix, fastest_lap, fastest_lap_time FROM racetracks ORDER BY fastest_lap_time ASC");
+        ResultSet rs7 = statement.executeQuery("SELECT grand_prix, fastest_lap, fastest_lap_time FROM racetracks_stats ORDER BY fastest_lap_time ASC");
         System.out.println("Fastest Laps:");
         System.out.printf("| %-25s | %-16s | %-16s |\n", "Grand Prix", "Fastest Lap By", "Fastest Lap Time");
         System.out.printf("| %-25s | %-16s | %-16s |\n", "-------------------------", "----------------", "----------------");
@@ -379,12 +428,12 @@ public class DBCoursework {
                     rs7.getString("fastest_lap"),
                     rs7.getString("fastest_lap_time"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 8
         // Get average fastest lap time
         System.out.println("\n\nQuery 8: Get average fastest lap time\n");
-        ResultSet rs8 = statement.executeQuery("SELECT AVG((substr(fastest_lap_time, 1, instr(fastest_lap_time, ':') - 1) * 60 + substr(fastest_lap_time, instr(fastest_lap_time, ':') + 1, instr(fastest_lap_time, '.') - instr(fastest_lap_time, ':') - 1) + substr(fastest_lap_time, instr(fastest_lap_time, '.') + 1) / 1000.0)) AS average_lap_time_seconds FROM racetracks");
+        ResultSet rs8 = statement.executeQuery("SELECT AVG((substr(fastest_lap_time, 1, instr(fastest_lap_time, ':') - 1) * 60 + substr(fastest_lap_time, instr(fastest_lap_time, ':') + 1, instr(fastest_lap_time, '.') - instr(fastest_lap_time, ':') - 1) + substr(fastest_lap_time, instr(fastest_lap_time, '.') + 1) / 1000.0)) AS average_lap_time_seconds FROM racetracks_stats");
         System.out.println("Average Fastest Lap Time:");
         System.out.printf("| %-28s |\n", "Average Lap Time (MM:SS.sss)");
         System.out.printf("| %-28s |\n", "----------------------------");
@@ -396,12 +445,12 @@ public class DBCoursework {
             int milliseconds = (int) ((fractionalSeconds - seconds) * 1000);
             System.out.printf("| %02d:%02d.%03d %-18s |\n", minutes, seconds, milliseconds, "");
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 9
         // Order race engineers by experience with their drivers
         System.out.println("\n\nQuery 9: Getting race engineers with their drivers by experience\n");
-        ResultSet rs9 = statement.executeQuery("SELECT e.engineer_name, e.years_with_driver, e.years_of_f1_entry, d.driver_name, e.constructor, d.points FROM race_engineers e JOIN drivers d ON e.engineer_name = d.race_engineer ORDER BY e.years_of_f1_entry ASC");
+        ResultSet rs9 = statement.executeQuery("SELECT e.engineer_name, e.years_with_driver, e.years_of_f1_entry, d.driver_name, e.constructor, ds.points FROM race_engineers e JOIN drivers d ON e.engineer_name = d.race_engineer JOIN drivers_stats ds ON d.driver_name = ds.driver_name ORDER BY e.years_of_f1_entry ASC");
         System.out.println("Race engineers by experience: ");
         System.out.printf("| %-20s | %-24s | %-16s | %-16s | %-28s | %-6s |\n", "Engineer Name", "Year Started With Driver", "Year of F1 Entry", "Driver managed", "Team", "Points");
         System.out.printf("| %-20s | %-24s | %-16s | %-16s | %-28s | %-6s |\n", "--------------------", "------------------------", "----------------", "----------------", "----------------------------", "------");
@@ -414,7 +463,7 @@ public class DBCoursework {
                     rs9.getString("constructor"),
                     rs9.getInt("points"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 10
         // Grouping drivers by countries of origin
@@ -427,12 +476,12 @@ public class DBCoursework {
             String country = rs10.getString("country_of_birth");
             System.out.printf("| %-24s | %-7d |\n", country, rs10.getInt("drivers"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 11
         // Get drivers that entered before 2015 and have won at least one world championship
         System.out.println("\n\nQuery 11: Getting drivers that entered before 2015 and have won at least one world championship\n");
-        ResultSet rs11 = statement.executeQuery("SELECT racer_number, driver_name, year_of_entry, world_championships FROM drivers WHERE year_of_entry < 2015 AND world_championships > 0 ORDER BY world_championships DESC");
+        ResultSet rs11 = statement.executeQuery("SELECT d.racer_number, d.driver_name, d.year_of_entry, ds.world_championships FROM drivers d JOIN drivers_stats ds ON d.driver_name = ds.driver_name WHERE d.year_of_entry < 2015 AND ds.world_championships > 0 ORDER BY ds.world_championships DESC");
         System.out.println("Drivers that entered before 2015 and have won at least one world championship:");
         System.out.printf("| %-12s | %-16s | %-13s | %-19s |\n", "Racer Number", "Driver Name", "Year of Entry", "World Championships");
         System.out.printf("| %-12s | %-16s | %-13s | %-19s |\n", "------------","----------------", "-------------", "-------------------");
@@ -443,7 +492,7 @@ public class DBCoursework {
                     rs11.getString("year_of_entry"),
                     rs11.getInt("world_championships"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 12
         // Get teams, drivers and engineers
@@ -459,15 +508,15 @@ public class DBCoursework {
                     rs12.getString("driver_name"),
                     rs12.getString("engineer_name"));
         }
-        Thread.sleep(500);
-
-        System.out.println("Nyck de Vries was fired from Formula 1 mid-season, and replaced by Daniel Ricciardo. \nAlso, Liam Lawson is a reserve driver, DB means to keep integrity on the main drivers, so deleting both from database\n");
-        statement.executeUpdate("DELETE FROM drivers WHERE driver_name = 'Nyck de Vries' OR driver_name = 'Liam Lawson'");
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
         // Query 13
         // Get teams, drivers and engineers after deletion
-        System.out.println("Nick de Vries and Liam Lawson have been deleted from the database\n Updated table:");
+        System.out.println("\n\nNyck de Vries was fired from Formula 1 mid-season, and replaced by Daniel Ricciardo. \nAlso, Liam Lawson is a reserve driver, DB means to keep integrity on the main drivers, so deleting both from database\n");
+        statement.executeUpdate("DELETE FROM drivers WHERE driver_name = 'Nyck de Vries' OR driver_name = 'Liam Lawson'");
+        Thread.sleep(500);
+
+        System.out.println("Nick de Vries and Liam Lawson have been deleted from the database\n\nQuery 13: Updated table:");
         ResultSet rs13 = statement.executeQuery("WITH TeamDriverEngineer AS (SELECT dt.constructor AS team_name, dt.team_principal, re.engineer_name, d.driver_name, ROW_NUMBER() OVER (PARTITION BY dt.constructor, d.driver_name ORDER BY d.driver_name) AS row_num FROM driving_team dt JOIN race_engineers re ON dt.constructor = re.constructor JOIN drivers d ON re.engineer_name = d.race_engineer) SELECT team_name, team_principal, engineer_name, driver_name FROM TeamDriverEngineer WHERE row_num <= 2 ORDER BY team_name, driver_name");
         System.out.println("Teams, Team Principals, Drivers and Race Engineers:");
         System.out.printf("| %-28s | %-30s | %-16s | %-20s |\n", "Team Name", "Team Principal", "Drivers", "Race Engineers");
@@ -479,14 +528,14 @@ public class DBCoursework {
                     rs13.getString("driver_name"),
                     rs13.getString("engineer_name"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
 
 
         // Query 14
         // Delete Emilia Romagna Grand Prix
-        System.out.println("\n\nQuery 13: The Emilia Romagna Grand Prix was cancelled due to floods in the region... Deleting from database\n");
+        System.out.println("\n\nQuery 14: The Emilia Romagna Grand Prix was cancelled due to floods in the region... Deleting from database\n");
         statement.executeUpdate("DELETE FROM racetracks WHERE grand_prix = 'Emilia Romagna Grand Prix'");
-        System.out.println("Emilia Romagna Grand Prix has been deleted from the database\n Updated table:");
+        System.out.println("Emilia Romagna Grand Prix has been deleted from the database\n\nUpdated table:");
         ResultSet rs14 = statement.executeQuery("SELECT round, grand_prix, country, continent, circuit, laps, race_date FROM racetracks");
         System.out.println("Racetracks:");
         System.out.printf("| %-5s | %-25s | %-24s | %-9s | %-34s | %-4s | %-12s |\n", "Round", "Grand Prix", "Country", "Continent", "Circuit", "Laps", "Date of Race");
@@ -501,7 +550,7 @@ public class DBCoursework {
                     rs14.getInt("laps"),
                     rs14.getString("race_date"));
         }
-        Thread.sleep(500);
+        Thread.sleep(1000);
     }
 
     public class CSV_Reader {

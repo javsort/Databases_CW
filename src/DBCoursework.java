@@ -432,7 +432,7 @@ public class DBCoursework {
         ResultSet rs8 = statement.executeQuery("SELECT AVG((substr(fastest_lap_time, 1, instr(fastest_lap_time, ':') - 1) * 60 + substr(fastest_lap_time, instr(fastest_lap_time, ':') + 1, instr(fastest_lap_time, '.') - instr(fastest_lap_time, ':') - 1) + substr(fastest_lap_time, instr(fastest_lap_time, '.') + 1) / 1000.0)) AS average_lap_time_seconds FROM racetracks_stats");
         System.out.println("Average Fastest Lap Time:");
         System.out.printf("| %-36s |\n", "Average Fastest lap Time (MM:SS.sss)");
-        System.out.printf("| %-36s |\n", "----------------------------");
+        System.out.printf("| %-36s |\n", "------------------------------------");
         while (rs8.next()) {
             double averageLapTimeSeconds = rs8.getDouble("average_lap_time_seconds");
             int minutes = (int) (averageLapTimeSeconds / 60);
